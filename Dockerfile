@@ -28,7 +28,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 COPY --from=assets /app/public/build ./public/build
 
-RUN mkdir -p storage/framework/{cache,sessions,testing,views} bootstrap/cache \
+RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/testing storage/framework/views bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 10000
