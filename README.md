@@ -11,6 +11,12 @@
 
 - Read `docs/react-developer-guide.md` for a full walkthrough of this Laravel project mapped to fullstack React concepts.
 
+## Render Deployment
+
+This repository is a full Laravel (PHP) server-rendered application and is a good fit for Render.
+
+See `docs/render-deployment.md` for the complete step-by-step setup, required environment variables, and production command checklist.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
