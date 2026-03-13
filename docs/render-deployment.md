@@ -9,7 +9,7 @@ This repository now includes:
 
 - `Dockerfile` for Render web service runtime
 - `.dockerignore` for smaller image contexts
-- `render.yaml` blueprint for one-click service setup
+- `render.yaml` blueprint preconfigured for SQLite demo mode
 
 ## Create a Render Web Service
 
@@ -23,7 +23,7 @@ Use these service settings:
 - Region: closest to your users
 - Auto-Deploy: `Yes`
 
-If you use Render Blueprints, `render.yaml` can create the service with baseline environment variables.
+If you use Render Blueprints, `render.yaml` can create the service with SQLite demo-safe defaults (no external database required).
 
 ## Required Environment Variables in Render
 
@@ -35,36 +35,35 @@ Set these in your Render service (or confirm values from `render.yaml`):
 - `APP_KEY=<generated-laravel-app-key>`
 - `LOG_CHANNEL=stderr`
 - `LOG_LEVEL=info`
-
-Database variables:
-
-- `DB_CONNECTION`
-- `DB_HOST`
-- `DB_PORT`
-- `DB_DATABASE`
-- `DB_USERNAME`
-- `DB_PASSWORD`
-
-You can use Render Postgres and copy connection values into these keys.
+- `DB_CONNECTION=sqlite`
+- `DB_DATABASE=/var/www/html/database/database.sqlite`
+- `SESSION_DRIVER=file`
+- `CACHE_STORE=file`
+- `QUEUE_CONNECTION=sync`
+- `BROADCAST_CONNECTION=log`
+- `FILESYSTEM_DISK=local`
 
 ## Post-Deploy Commands
 
 After first successful deploy, open Render Shell and run:
 
-1. `php artisan migrate --force`
-2. `php artisan config:cache`
-3. `php artisan route:cache`
-4. `php artisan view:cache`
+1. `mkdir -p database`
+2. `touch database/database.sqlite`
+3. `php artisan config:clear`
+4. `php artisan migrate --force`
+5. `php artisan db:seed --force`
+6. `php artisan config:cache`
 
 If this demo app uses seed data in production:
 
-1. `php artisan db:seed --force`
+1. Seeder data is loaded by step 5 above.
 
 ## Notes for This Repository
 
-- Bookings and admin flows require a working database.
+- Bookings and admin flows require a working database (SQLite file in demo mode).
 - If using queues later, configure `QUEUE_CONNECTION` and add a separate Render worker.
 - For file uploads, prefer an external object store (for example S3) instead of local disk.
+- SQLite demo data may reset after redeploy/restart unless persistent disk is configured in Render.
 
 ## Local Validation Before Push
 
