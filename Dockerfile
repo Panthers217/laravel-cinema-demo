@@ -24,10 +24,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
-
 COPY . .
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 COPY --from=assets /app/public/build ./public/build
 
 RUN mkdir -p storage/framework/{cache,sessions,testing,views} bootstrap/cache \
