@@ -73,18 +73,26 @@ class MovieSeeder extends Seeder
             ],
         ];
 
-        foreach ($movies as $data) {
-            $movie = Movie::create($data);
+        // Fixed day offsets per hall so show times are stable on re-seed
+        $hallOffsets = ['Hall 1' => 3, 'Hall 2' => 7, 'IMAX' => 12];
 
-            // Create 3 upcoming showings per movie
-            $halls = ['Hall 1', 'Hall 2', 'IMAX'];
-            foreach ($halls as $i => $hall) {
-                Showing::create([
-                    'movie_id'        => $movie->id,
-                    'show_time'       => now()->addDays(random_int(1, 14))->setTime(10 + ($i * 4), 0),
-                    'hall'            => $hall,
-                    'available_seats' => $movie->total_seats,
-                ]);
+        foreach ($movies as $data) {
+            $movie = Movie::firstOrCreate(['title' => $data['title']], $data);
+
+            foreach ($hallOffsets as $hall => $dayOffset) {
+                $hour = match ($hall) {
+                    'Hall 1' => 10,
+                    'Hall 2' => 14,
+                    default  => 18,
+                };
+
+                Showing::firstOrCreate(
+                    ['movie_id' => $movie->id, 'hall' => $hall],
+                    [
+                        'show_time'       => now()->addDays($dayOffset)->setTime($hour, 0),
+                        'available_seats' => $movie->total_seats,
+                    ]
+                );
             }
         }
     }
