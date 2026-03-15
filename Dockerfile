@@ -34,4 +34,4 @@ RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framewor
 
 EXPOSE 10000
 
-CMD ["sh", "-c", "if [ \"${DB_CONNECTION}\" = \"sqlite\" ]; then mkdir -p \"$(dirname \"${DB_DATABASE:-/var/www/html/database/database.sqlite}\")\" && touch \"${DB_DATABASE:-/var/www/html/database/database.sqlite}\"; fi && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
+CMD ["sh", "-c", "if [ \"${DB_CONNECTION}\" = \"sqlite\" ]; then mkdir -p \"$(dirname \"${DB_DATABASE:-/var/www/html/database/database.sqlite}\")\" && touch \"${DB_DATABASE:-/var/www/html/database/database.sqlite}\"; fi && php artisan migrate --force && if [ \"${APP_SEED_ON_BOOT:-true}\" = \"true\" ]; then php artisan db:seed --force; fi && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
