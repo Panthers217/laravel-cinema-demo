@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Booking;
 use App\Models\Showing;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class BookingSeeder extends Seeder
 {
@@ -22,11 +21,19 @@ class BookingSeeder extends Seeder
             ['name' => 'Henry Adams',   'email' => 'henry@example.com', 'phone' => '555-0108'],
         ];
 
+        // Fixed seat counts per position so totals are stable on re-seed
+        $fixedSeats = [2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3];
+
         $showings = Showing::with('movie')->get();
 
         foreach ($showings as $index => $showing) {
+            // Skip if this showing already has a booking
+            if ($showing->bookings()->exists()) {
+                continue;
+            }
+
             $customer = $customers[$index % count($customers)];
-            $seats    = rand(1, 3);
+            $seats    = $fixedSeats[$index] ?? 2;
             $price    = $seats * $showing->movie->ticket_price;
 
             Booking::create([
@@ -36,7 +43,7 @@ class BookingSeeder extends Seeder
                 'customer_phone'    => $customer['phone'],
                 'seats_booked'      => $seats,
                 'total_price'       => $price,
-                'booking_reference' => 'CIN-' . strtoupper(Str::random(8)),
+                'booking_reference' => sprintf('CIN-%08d', $showing->id),
                 'status'            => 'confirmed',
             ]);
 
