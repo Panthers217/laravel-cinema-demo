@@ -59,6 +59,12 @@
             <a class="nav-link" href="{{ route('movies.index') }}" target="_blank">
                 <i class="bi bi-box-arrow-up-right"></i> View Site
             </a>
+            <form action="{{ route('admin.logout') }}" method="POST" class="mt-auto mb-3 px-2">
+                @csrf
+                <button type="submit" class="nav-link btn btn-link w-100 text-start" style="text-decoration: none;">
+                    <i class="bi bi-box-arrow-left"></i> Logout
+                </button>
+            </form>
         </nav>
     </div>
 

@@ -18,6 +18,14 @@ services:
         sync: false
       - key: APP_URL
         sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_WEB_API_KEY
+        sync: false
+      - key: FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
