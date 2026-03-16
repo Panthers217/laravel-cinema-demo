@@ -11,6 +11,9 @@
         body { background-color: #0f0f1a; color: #e8e8f0; }
         .navbar-brand { font-weight: 700; font-size: 1.4rem; color: #f0c040 !important; }
         .navbar { background-color: #16162a !important; border-bottom: 2px solid #f0c040; }
+        .navbar-toggler { border-color: rgba(34, 197, 94, 0.6); }
+        .navbar-toggler-icon { --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2834, 197, 94, 0.95%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+        .navbar-toggler:focus { box-shadow: 0 0 0 0.2rem rgba(34, 197, 94, 0.25); }
         .navbar-nav .nav-link { color: #ccc !important; }
         .navbar-nav .nav-link:hover { color: #f0c040 !important; }
         .card { background-color: #1c1c35; border: 1px solid #2e2e50; color: #e8e8f0; }
@@ -39,12 +42,12 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="{{ route('movies.index') }}">
             <i class="bi bi-camera-reels-fill"></i> CinemaTickets
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navMenu">
